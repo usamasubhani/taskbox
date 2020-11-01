@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const Task = ({ task: { id, title, state }, onArchiveTask, onPinTask }) => {
     return (
-        <div className="list-item">
+        <div className={`list-item ${state}`}>
             <label className="checkbox">
                 <input
                     type="checkbox"
@@ -21,12 +22,29 @@ const Task = ({ task: { id, title, state }, onArchiveTask, onPinTask }) => {
                 {state !== 'TASK_ARCHIVED' && (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a onClick={() => onPinTask(id)}>
-                        <span className={`icon-star`} />
+                        <span className={`icon-star`}>Pin</span>
+                        {/* <span className={`icon-star`} />  */}
                     </a>
                 )}
             </div>
         </div>
     )
 }
+
+Task.propTypes = {
+    /** Composition of the task */
+    task: PropTypes.shape({
+        /** Id of the task */
+        id: PropTypes.string.isRequired,
+        /** Title of the task */
+        title: PropTypes.string.isRequired,
+        /** Current state of the task */
+        state: PropTypes.string.isRequired,
+    }),
+    /** Event to change the task to archived */
+    onArchiveTask: PropTypes.func,
+    /** Event to change the task to pinned */
+    onPinTask: PropTypes.func,
+};
 
 export default Task
